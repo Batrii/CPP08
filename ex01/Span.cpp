@@ -1,9 +1,10 @@
 #include "Span.hpp"
+#include <algorithm>
+#include <climits>
 
 Span::Span() : n(0), arr() {}
 
 Span::Span(unsigned int n) : n(n) {
-    // arr.insert(arr.end(), n, 0);
     std::cout << "Span constructor called" << std::endl;
 }
 
@@ -13,12 +14,6 @@ Span::Span(const Span &other) : n(other.n) {
 
 Span &Span::operator=(const Span &other) {
     if (this != &other) {
-        // delete[] arr;
-        // n = other.n;
-        // arr = new int[n];
-        // for (unsigned int i = 0; i < n; i++) {
-        //     arr[i] = other.arr[i];
-        // }
         this->n = other.n;
         this->arr.assign(other.arr.begin(), other.arr.end());
     }
@@ -37,63 +32,30 @@ void Span::addNumber(int number) {
 }
 
 int Span::shortestSpan(){
-    unsigned int i = 0;
-    unsigned int j;
-    unsigned int minSpan = 0;
-    while (i < n)
+    std::size_t i = 0;
+    int minSpan = INT_MAX;
+    if (arr.size() < 2)
+        throw std::runtime_error("Not enough numbers to find a span");
+    std::vector<int> sortedarr = arr;
+    std::sort(sortedarr.begin(), sortedarr.end());
+    while (i < sortedarr.size() - 1)
     {
-        j = i + 1;
-        while (j < n)
-        {
-            unsigned int span ;
-            if (arr[i] > arr[j]){
-                span = arr[i] - arr[j];
-                if (minSpan == 0 || span < minSpan)
-                    minSpan = span;
-            }
-            else{
-                span = arr[j] - arr[i];
-                if (minSpan == 0 || span < minSpan)
-                    minSpan = span;
-            }
-            j++;
+        int span = sortedarr[i + 1] - sortedarr[i];
+        if (minSpan == INT_MAX || span < minSpan){
+            minSpan = span;
         }
         i++;
     }
-    //check for exception
-    if (minSpan == 0)
-        throw std::runtime_error("No span found");
     return minSpan;
 }
 
 int Span::longestSpan(){
-    unsigned int i = 0;
-    unsigned int j;
-    unsigned maxSpan = 0;
-    while (i < n)
-    {
-        j = i + 1;
-        while (j < n)
-        {
-            unsigned int span ;
-            if (arr[i] > arr[j]){
-                span = arr[i] -  arr[j];
-                if (span > maxSpan)
-                    maxSpan = span;
-            }
-            else{
-                span = arr[j] - arr[i];
-                if (span > maxSpan)
-                    maxSpan = span;
-            }
-            j++;
-        }
-        i++;
-    }
-    //check for exception
-    if (maxSpan == 0)
-        throw std::runtime_error("No span found");
-    return maxSpan;
+
+    if (arr.size() < 2)
+        throw std::runtime_error("Not enough numbers to find a span");
+    std::vector<int> sortedarr = arr;
+    std::sort(sortedarr.begin(), sortedarr.end());
+    return sortedarr[sortedarr.size() - 1] - sortedarr[0];
 }
 
 
