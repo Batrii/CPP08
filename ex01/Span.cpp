@@ -8,9 +8,7 @@ Span::Span(unsigned int n) : n(n) {
     std::cout << "Span constructor called" << std::endl;
 }
 
-Span::Span(const Span &other) : n(other.n) {
-    arr.insert(arr.end(), other.arr.begin(), other.arr.end());
-}
+Span::Span(const Span &other) : n(other.n), arr(other.arr) {}
 
 Span &Span::operator=(const Span &other) {
     if (this != &other) {
@@ -21,7 +19,6 @@ Span &Span::operator=(const Span &other) {
 }
 
 Span::~Span() {
-    // delete[] arr;
     std::cout << "Span destructor called" << std::endl;
 }
 
