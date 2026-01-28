@@ -24,5 +24,6 @@ int main()
     ++it;
     }
     std::stack<int> s(mstack);
+    std::cout << "size of the stack s: "<< s.size() << " his top is :"<< s.top() << std::endl;
     return 0;
 }
